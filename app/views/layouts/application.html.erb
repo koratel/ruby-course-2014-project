@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>RubyCourse2014Project</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title><%= yield(:title) %> | Algorithm problem manager</title>
+    <%= stylesheet_link_tag    'application', media: 'all',
+                                              'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
 </html>
