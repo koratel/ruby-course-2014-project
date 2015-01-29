@@ -1,0 +1,26 @@
+problem_a:
+  name: "A"
+  created_at: <%= 10.minutes.ago %>
+  user: michael
+
+problem_b:
+  name: "B"
+  created_at: <%= 3.years.ago %>
+  user: michael
+
+problem_c:
+  name: "C"
+  created_at: <%= 2.hours.ago %>
+  user: michael
+
+most_recent:
+  name: "D"
+  created_at: <%= Time.zone.now %>
+  user: michael
+
+<% 30.times do |n| %>
+problem_<%= n %>:
+  name: <%= Faker::Lorem.sentence(5) %>
+  created_at: <%= 42.days.ago %>
+  user: michael
+<% end %>
