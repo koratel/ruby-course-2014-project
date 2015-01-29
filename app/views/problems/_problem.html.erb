@@ -1,6 +1,12 @@
 <li id="problem-<%= problem.id %>">
-  <span class="name"><%= problem.name %></span>
+  <span class="name"><%= link_to problem.name, external_url(problem.url), :target => "_blank" %></span>
+  <span class="tags">#tags</span>
   <span class="timestamp">
     Added <%= time_ago_in_words(problem.created_at) %> ago.
+    <% if current_user?(problem.user) %>
+      <%= link_to "edit", edit_problem_path(problem) %> |
+      <%= link_to "delete", problem, method: :delete,
+                                       data: { confirm: "You sure?" } %>
+    <% end %>
   </span>
 </li>

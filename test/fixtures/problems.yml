@@ -6,7 +6,7 @@ problem_a:
 problem_b:
   name: "B"
   created_at: <%= 3.years.ago %>
-  user: michael
+  user: archer
 
 problem_c:
   name: "C"

@@ -6,6 +6,7 @@
         <%= @user.name %>
       </h1>
     </section>
+    <%= button_to "Add problem", new_problem_path, method: "get", class: "btn" if current_user?(@user) %>
   </aside>
   <div class="col-md-8">
     <% if @user.problems.any? %>
