@@ -23,9 +23,14 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
-      redirect_to root_url
+      # Email activation disabled
+      # @user.send_activation_email
+      # flash[:info] = "Please check your email to activate your account."
+      # redirect_to root_url
+      @user.activate
+      log_in @user
+      flash[:success] = "Welcome to the Algorithm problem manager!"
+      redirect_to @user
     else
       render 'new'
     end
@@ -62,7 +67,7 @@ class UsersController < ApplicationController
     end
     cf_url = "http://codeforces.com/contest/"
     old_count = user.problems.count
-    problems.each do |problem|
+    problems.reverse.each do |problem|
       name = problem["index"].to_s + ". " + problem["name"]
       url = cf_url + problem["contestId"].to_s + "/problem/" + problem["index"].to_s
       new_problem = user.problems.create(name: name, url: url)

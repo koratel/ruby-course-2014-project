@@ -4,7 +4,7 @@ class Problem < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
   validates :name, presence: true, length: { maximum: 100 },
-            uniqueness: { case_sensitive: false }
+            :uniqueness => {:scope => [:user_id, :name]}
 
   accepts_nested_attributes_for :tags, :reject_if => :all_blank, :allow_destroy => true
 end
