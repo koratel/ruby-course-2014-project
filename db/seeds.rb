@@ -23,6 +23,6 @@ users = User.order(:created_at).take(6)
   name = Faker::Lorem.sentence(5)
   users.each do |user|
     user.problems.create!(name: name)
-    user.problems.each { |problem| problem.tags.create!("tag") }
+    user.problems.each { |problem| problem.tags.create!(name: "tag") }
   end
 end

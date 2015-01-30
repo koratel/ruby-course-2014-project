@@ -3,7 +3,8 @@ class Problem < ActiveRecord::Base
   has_many :tags, dependent: :destroy
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
-  validates :name, presence: true, length: { maximum: 100 }
+  validates :name, presence: true, length: { maximum: 100 },
+            uniqueness: { case_sensitive: false }
 
   accepts_nested_attributes_for :tags, :reject_if => :all_blank, :allow_destroy => true
 end
