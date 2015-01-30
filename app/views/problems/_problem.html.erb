@@ -1,5 +1,11 @@
 <li id="problem-<%= problem.id %>">
-  <span class="name"><%= link_to problem.name, external_url(problem.url), :target => "_blank" %></span>
+  <span class="name">
+    <% if problem.url.blank? %>
+      <%= problem.name %>
+    <% else %>
+      <%= link_to problem.name, external_url(problem.url), :target => "_blank" %>
+    <% end %>
+  </span>
   <span class="tags">
     <%= problem.tags.collect{ |tag| '#' + tag.name }.join(', ') %>
   </span>

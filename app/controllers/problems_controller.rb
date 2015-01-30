@@ -3,7 +3,7 @@ class ProblemsController < ApplicationController
   before_action :correct_user,   only: [:edit, :update, :destroy]
 
   def new
-    @problem = current_user.problems.build if logged_in?
+    @problem = current_user.problems.build
   end
 
   def create
