@@ -5,8 +5,13 @@
       <h1><%= @user.name %></h1>
       <span><%= pluralize(@user.problems.count, "problem") %></span>
     </section>
+    <%= form_tag({controller: "users", action: "search_problems"}, method: "get") do %>
+      <%= text_field_tag :tags, params[:tags], placeholder: "tag" %>
+      <%= submit_tag "Search problems", name: nil, class: "btn" %>
+    <% end %>
+    <div style="margin-bottom: 30px;"></div>
     <% if current_user?(@user) %>
-      <%= button_to "Add problem", new_problem_path, method: "get", class: "btn" %>
+      <%= button_to "Add new problem", new_problem_path, method: "get", class: "btn" %>
       <%= form_tag({controller: "users", action: "codeforces_problems"}, method: "post") do %>
         <%= text_field_tag :handle, params[:handle], placeholder: "Codeforces handle" %>
         <%= submit_tag "Add user problems from codeforces", name: nil, class: "btn" %>
@@ -15,7 +20,7 @@
   </aside>
   <div class="col-md-8">
     <% if @user.problems.any? %>
-      <h3>Problems (<%= @user.problems.count %>)</h3>
+      <h3>Problems (<%= @problems.count %>)</h3>
       <ol class="problems">
         <%= render @problems %>
       </ol>

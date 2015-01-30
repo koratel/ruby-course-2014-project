@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       post :codeforces_problems
+      get :search_problems
     end
   end
   resources :account_activations, only: [:edit]

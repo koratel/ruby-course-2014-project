@@ -7,7 +7,11 @@
     <% end %>
   </span>
   <span class="tags">
-    <%= problem.tags.collect{ |tag| '#' + tag.name }.join(', ') %>
+    <%=
+      problem.tags.collect{
+        |tag| link_to '#' + tag.name, search_problems_user_path(@user, tags: tag.name)
+      }.join(', ').html_safe
+    %>
   </span>
   <span class="timestamp">
     Added <%= time_ago_in_words(problem.created_at) %> ago.

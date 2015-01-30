@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :add_codeforces_problems]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
+                                 :add_codeforces_problems, :search_problems]
   before_action :correct_user,   only: [:edit, :update, :add_codeforces_problems]
   before_action :admin_user,     only: :destroy
 
@@ -73,6 +74,22 @@ class UsersController < ApplicationController
     diff = user.problems.count - old_count
     flash[ diff > 0 ? :success : :info ] = "Added " + pluralize(diff, "problem")
     redirect_to user
+  end
+
+  # Searches problems by tag
+  # Possible improvement: search for all tags
+  def search_problems
+    @user = User.find(params[:id])
+    redirect_to @user and return if params[:tags].nil?
+    tags = params[:tags].split(',').map(&:strip).reject(&:empty?)
+    puts tags
+    @user = User.find(params[:id])
+    redirect_to @user and return if tags.empty?
+    @problems =
+      @user.problems.joins(:tags).where(
+        "LOWER(tags.name) LIKE ?", '%'+tags.first.downcase+'%'
+      ).paginate(page: params[:page])
+    render 'show'
   end
 
   private

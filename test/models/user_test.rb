@@ -67,7 +67,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "associated problems should be destroyed" do
     @user.save
-    @user.problems.create!(name: "A")
+    @user.problems.create!(name: "Z")
     assert_difference 'Problem.count', -1 do
       @user.destroy
     end
