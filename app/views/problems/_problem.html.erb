@@ -1,6 +1,8 @@
 <li id="problem-<%= problem.id %>">
   <span class="name"><%= link_to problem.name, external_url(problem.url), :target => "_blank" %></span>
-  <span class="tags">#tags</span>
+  <span class="tags">
+    <%= problem.tags.collect{ |tag| '#' + tag.name }.join(', ') %>
+  </span>
   <span class="timestamp">
     Added <%= time_ago_in_words(problem.created_at) %> ago.
     <% if current_user?(problem.user) %>

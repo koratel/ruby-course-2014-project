@@ -37,7 +37,7 @@ class ProblemsController < ApplicationController
   private
 
     def problem_params
-      params.require(:problem).permit(:name, :url)
+      params.require(:problem).permit(:name, :url, tags_attributes: [:id, :name, :_destroy])
     end
 
     def correct_user

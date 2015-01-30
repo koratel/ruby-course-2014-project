@@ -21,5 +21,8 @@ end
 users = User.order(:created_at).take(6)
 50.times do
   name = Faker::Lorem.sentence(5)
-  users.each { |user| user.problems.create!(name: name) }
+  users.each do |user|
+    user.problems.create!(name: name)
+    user.problems.each { |problem| problem.tags.create!("tag") }
+  end
 end
