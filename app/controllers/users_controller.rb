@@ -58,15 +58,17 @@ class UsersController < ApplicationController
 
   # Adds user problems from codeforces
   def codeforces_problems
-    puts "handle: " + params[:handle]
     problems = get_codeforces_problems(params[:handle])
     user = current_user
+
     if problems.nil?
       flash[:warning] = "Incorrect handle"
       redirect_to user and return
     end
+
     cf_url = "http://codeforces.com/contest/"
     old_count = user.problems.count
+
     problems.reverse.each do |problem|
       name = problem["index"].to_s + ". " + problem["name"]
       url = cf_url + problem["contestId"].to_s + "/problem/" + problem["index"].to_s
@@ -76,24 +78,28 @@ class UsersController < ApplicationController
         new_problem.tags.create(name: "codeforces")
       end
     end
+
     diff = user.problems.count - old_count
     flash[ diff > 0 ? :success : :info ] = "Added " + pluralize(diff, "problem")
     redirect_to user
   end
 
-  # Searches problems by tag
-  # Possible improvement: search for all tags
+  # Searches problems by tags
   def search_problems
     @user = User.find(params[:id])
     redirect_to @user and return if params[:tags].nil?
+
     tags = params[:tags].split(',').map(&:strip).reject(&:empty?)
-    puts tags
-    @user = User.find(params[:id])
+    tags.map! { |tag| '%' + tag.downcase + '%' }
     redirect_to @user and return if tags.empty?
-    @problems =
-      @user.problems.joins(:tags).where(
-        "LOWER(tags.name) LIKE ?", '%'+tags.first.downcase+'%'
-      ).paginate(page: params[:page])
+
+    problem_ids = @user.problems.pluck(:id)
+    tags.each do |tag|
+      problem_ids &=
+        @user.problems.joins(:tags).where("LOWER(tags.name) LIKE ?", tag).pluck(:id)
+    end
+    @problems = @user.problems.where(id: problem_ids).paginate(page: params[:page])
+
     render 'show'
   end
 
